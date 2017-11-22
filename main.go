@@ -22,19 +22,13 @@ func main() {
 		input := ""
 		second := ""
 
-		fmt.Printf("> ")
-		numInputs, _ := fmt.Scanf("%s %s", &input, &second)
+		displayHelp("Welcome!")
+		fmt.Printf("Command> ")
+		fmt.Scanf("%s %s", &input, &second)
 
 		switch strings.ToLower(input) {
 		case "help":
-			fmt.Print(`Help:
-help		display this menu
-list		list all tasks (all, incomplete, complete)
-add			add new task
-del <id>	delete a task (specify last 5+ characters)
-com <id>	mark a task complete (specify last 5+ characters)
-inc <id>	mark a task incomplete (specify last 5+ characters)
-`)
+			displayHelp("Help:")
 		case "list":
 			// todo
 		case "add":
@@ -56,8 +50,11 @@ inc <id>	mark a task incomplete (specify last 5+ characters)
 			// todo
 		case "inc":
 			// todo
+		case "quit":
+			os.Exit(0)
+		case "q":
+			os.Exit(0)
 		}
-
 	}
 }
 
@@ -75,4 +72,18 @@ func getNewTask() (tasks.Task, error) {
 	}
 
 	return newTask, nil
+}
+
+func displayHelp(title string) {
+	fmt.Print(title, `
+-----
+help		display this menu
+list		list all tasks (all, incomplete, complete)
+add		add new task
+del <id>	delete a task (specify last 5+ characters)
+com <id>	mark a task complete (specify last 5+ characters)
+inc <id>	mark a task incomplete (specify last 5+ characters)
+quit|q		exit the application
+
+`)
 }

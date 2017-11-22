@@ -53,7 +53,7 @@ func (tl *TaskList) Remove(t Task) {
 	foundIndex := -1
 
 	for i, task := range *tl {
-		if task.id == t.id {
+		if task.Id == t.Id {
 			foundIndex = i
 			break
 		}

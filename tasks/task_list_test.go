@@ -35,11 +35,11 @@ func TestCanRemoveTasks(t *testing.T) {
 		t.Error("Expected len(taskList) to be 2, got", count)
 	}
 
-	if taskList[0].description != "First task" {
-		t.Error("Expected taskList[0] to be 'First task', got", taskList[0].description)
+	if taskList[0].Description != "First task" {
+		t.Error("Expected taskList[0] to be 'First task', got", taskList[0].Description)
 	}
 
-	if taskList[1].description != "Third task" {
-		t.Error("Expected taskList[1] to be 'Third task', got", taskList[1].description)
+	if taskList[1].Description != "Third task" {
+		t.Error("Expected taskList[1] to be 'Third task', got", taskList[1].Description)
 	}
 }

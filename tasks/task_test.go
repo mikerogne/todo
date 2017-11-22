@@ -5,16 +5,16 @@ import "testing"
 func TestNewTask(t *testing.T) {
 	task := NewTask("Make this test pass")
 
-	if len(task.id) < 5 {
-		t.Error("Expected len(task.id) to be >= 5, but got", len(task.id))
+	if len(task.Id) < 5 {
+		t.Error("Expected len(task.Id) to be >= 5, but got", len(task.Id))
 	}
 
-	if task.description != "Make this test pass" {
-		t.Error("Task description not as expected:", task.description)
+	if task.Description != "Make this test pass" {
+		t.Error("Task Description not as expected:", task.Description)
 	}
 
-	if task.completed != false {
-		t.Error("New task `completed` status should be false, got", task.completed)
+	if task.Completed != false {
+		t.Error("New task `Completed` status should be false, got", task.Completed)
 	}
 }
 
@@ -23,8 +23,8 @@ func TestMarkComplete(t *testing.T) {
 
 	task.MarkComplete()
 
-	if task.completed != true {
-		t.Error("Expected task.completed to be true, got", task.completed)
+	if task.Completed != true {
+		t.Error("Expected task.Completed to be true, got", task.Completed)
 	}
 }
 
@@ -34,7 +34,7 @@ func TestMarkIncomplete(t *testing.T) {
 	task.MarkComplete()
 	task.MarkIncomplete()
 
-	if task.completed != false {
-		t.Error("Expected task.completed to be false, got", task.completed)
+	if task.Completed != false {
+		t.Error("Expected task.Completed to be false, got", task.Completed)
 	}
 }

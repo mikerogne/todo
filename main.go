@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"todo/tasks"
 )
@@ -28,10 +29,10 @@ func main() {
 
 	for {
 		input := ""
-		second := ""
+		input2 := ""
 
 		fmt.Printf("Command> ")
-		fmt.Scanf("%s %s", &input, &second)
+		fmt.Scanf("%s %s", &input, &input2)
 
 		switch strings.ToLower(input) {
 		case "help":
@@ -48,23 +49,41 @@ func main() {
 			}
 
 			taskList.Add(newTask)
-			err = tasks.SaveToFile(&taskList, jsonFilename)
-
-			if err != nil {
-				fmt.Println("Error writing to file:", err)
-				os.Exit(1)
-			}
-
+			writeFile(&taskList, jsonFilename)
 			fmt.Println("Task saved!")
 
 		case "del":
-			// todo
+			selectedIndex, err := getSelectedIndex(input2, len(taskList)-1)
+			if err != nil {
+				fmt.Println("Error:", err)
+				continue
+			}
+
+			taskList.Remove(taskList[selectedIndex])
+			writeFile(&taskList, jsonFilename)
+			fmt.Println("Task deleted.")
 
 		case "com":
-			// todo
+			selectedIndex, err := getSelectedIndex(input2, len(taskList)-1)
+			if err != nil {
+				fmt.Println("Error:", err)
+				continue
+			}
+
+			taskList[selectedIndex].MarkComplete()
+			writeFile(&taskList, jsonFilename)
+			fmt.Println("Task complete.")
 
 		case "inc":
-			// todo
+			selectedIndex, err := getSelectedIndex(input2, len(taskList)-1)
+			if err != nil {
+				fmt.Println("Error:", err)
+				continue
+			}
+
+			taskList[selectedIndex].MarkIncomplete()
+			writeFile(&taskList, jsonFilename)
+			fmt.Println("Task incomplete.")
 
 		case "quit":
 			os.Exit(0)
@@ -117,4 +136,26 @@ func displayTasks(taskList *tasks.TaskList) {
 
 		fmt.Printf("%5d  %10s %s %s\n", i, status, task.Id, task.Description)
 	}
+}
+
+func writeFile(taskList *tasks.TaskList, filename string) {
+	err := tasks.SaveToFile(taskList, filename)
+
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		os.Exit(1)
+	}
+}
+
+func getSelectedIndex(input string, maxIndex int) (int, error) {
+	if len(input) == 0 {
+		return -1, errors.New("You must specify a task index")
+	}
+
+	selectedIndex, err := strconv.Atoi(input)
+	if err != nil || selectedIndex > maxIndex {
+		return -1, errors.New("Error: invalid index given")
+	}
+
+	return selectedIndex, nil
 }
